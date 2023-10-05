@@ -1,0 +1,9 @@
+/* your.component.css */
+.custom-date-picker {
+  /* Hide the input field */
+
+  /* Hide the year selection */
+  .mat-calendar-header {
+    display: none;
+  }
+}

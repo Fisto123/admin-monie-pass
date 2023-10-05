@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.datatable-header-cell {
+  background-color: #f7f7fc;
+  color: black;
+  font-weight: bold;
+  align-items: center;
+}
+
+.datatable-body-row {
+  margin-bottom: 10px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+/* Add this CSS to your global stylesheet or component's stylesheet */
+.mat-mdc-header-row {
+  background-color: aqua;
+}
+.mat-mdc-table {
+  background-color: green;
+}
+.mat-form-field-rounded {
+  border-radius: 999px; /* A large value to create circular shape */
+}
+/* your-component.component.css */
+.mdc-checkbox__native-control mdc-checkbox--selected {
+  background-color: yellow;
+}
+/* Default styles for the table container */
+.mat-table-responsive {
+  overflow-x: auto; /* Add horizontal scrollbar if necessary */
+  max-width: 100%;
+}
+
+/* Responsive styles for the table itself */
+@media (max-width: 600px) {
+  /* Apply styles for screens smaller than 600px */
+  .mat-table-responsive {
+    overflow-x: auto;
+    display: block; /* Make the table scroll horizontally */
+  }
+  table.mat-table {
+    width: 100%; /* Make the table take up the full width */
+  }
+  /* You may also want to adjust column widths for small screens */
+}

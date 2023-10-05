@@ -1,0 +1,128 @@
+<div>
+  <div>
+    <app-dashboard-main-header name="Chat"></app-dashboard-main-header>
+  </div>
+  <div class="flex">
+    <div
+      *ngIf="showBar"
+      class="shadow-lg md:w-[30%] xs:w-[40%] xs:block md:block"
+    >
+      <div class="xs:h-[108vh] w-full">
+        <div class="m-3">
+          <div class="text-xl font-bold">Messages</div>
+          <div class="mt-5">
+            <mat-form-field class="w-full flex justify-center items-center">
+              <mat-icon matPrefix>search</mat-icon>
+              <input matInput placeholder="Search" />
+            </mat-form-field>
+          </div>
+          <!-- group chats -->
+          <div class="flex flex-col gap-4" *ngFor="let group of msgInboxArray2">
+            <div
+              (click)="view(group?.groupId)"
+              class="mt-2 flex justify-between cursor-pointer"
+            >
+              <div class="flex gap-3">
+                <img src="./assets/iim.png" alt="" class="h-full max-h-5" />
+                <div class="flex flex-col gap-1">
+                  <div class="font-bold xs:text-xs md:text-md flex flex-col">
+                    {{ group?.username }}
+                  </div>
+                  <div class="text-xs">
+                    {{ group?.message | slice : 0 : 30 }}
+                  </div>
+                </div>
+              </div>
+              <div class="text-xs">4.30PM</div>
+            </div>
+          </div>
+          <!-- group chats -->
+        </div>
+      </div>
+    </div>
+    <div class="md:w-[100%] relative xs:w-full">
+      <div (click)="toogleBar()">
+        <mat-icon class="text-green-700">list</mat-icon>
+      </div>
+      <div class="flex justify-between m-2">
+        <div class="flex gap-3 w-full">
+          <div>
+            <img src="./assets/iim.png" alt="" class="h-full md:mw-7" />
+          </div>
+          <div class="flex flex-col gap-1 justify-center">
+            <div class="font-bold md:text-xl xs:text-xs">Design Team</div>
+            <div class="w-full flex gap-1 font-thin text-gray-500 xs:text-xs">
+              <div>3 members</div>
+              <div>2 online</div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full xs:hidden md:block">
+          <mat-form-field class="w-full flex justify-center items-center">
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput placeholder="Search" />
+          </mat-form-field>
+        </div>
+        <div class="w-full"></div>
+      </div>
+      <div class="flex items-center justify-center">
+        <div class="flex items-center">
+          <div class="border-t border-gray-500 flex-grow w-[200px]"></div>
+          <div class="mx-4 text-gray-500">Conversation starts here!</div>
+          <div class="border-t border-gray-500 flex-grow w-[200px]"></div>
+        </div>
+      </div>
+      <div #chatWindow class="max-h-[60vh] overflow-y-scroll">
+        <div
+          class="mt-10 ml-10"
+          *ngFor="let mObj of msgInboxArray; let i = index"
+        >
+          <app-chatmessage
+            [message]="mObj.message"
+            [own]="mObj.username === onlineuser"
+            [name]="mObj.username"
+            [attr.id]="'message-' + i"
+          ></app-chatmessage>
+        </div>
+      </div>
+      <div *ngIf="isorderId" class="mt-10">
+        <form
+          class="flex justify-center"
+          [formGroup]="sendMsgForm"
+          (ngSubmit)="onsendMessage(sendMsgForm.value)"
+        >
+          <mat-form-field class="w-[50%] flex justify-center items-center">
+            <mat-icon matSuffix>send</mat-icon>
+            <input
+              matInput
+              placeholder="Send message"
+              formControlName="message"
+            />
+          </mat-form-field>
+          <button
+            [ngStyle]="{
+              'background-color': sendMsgForm.valid ? '#001D6D' : '##00153E',
+              color: sendMsgForm.valid ? 'white' : 'black',
+              height: '55.6px'
+            }"
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!sendMsgForm.valid"
+          >
+            Send
+          </button>
+        </form>
+      </div>
+      <div *ngIf="showLoading">
+        <ngx-spinner class="bg-ye" type="ball-scale-multiple"></ngx-spinner>
+      </div>
+      <div
+        class="flex mt-10 justify-center items-center text-lg"
+        *ngIf="msgInboxArray.length === 0"
+      >
+        TOOGLE ON THE ICON ABOVE AND CLICK ON A GROUP TO SEE THE MESSAGES
+      </div>
+    </div>
+  </div>
+</div>

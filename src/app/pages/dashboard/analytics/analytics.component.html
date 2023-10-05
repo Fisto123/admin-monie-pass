@@ -1,0 +1,62 @@
+<app-dashboard-main-header name="Analytics"></app-dashboard-main-header>
+<div class="m-10">
+  <div class="flex gap-3">
+    <div class="text-lg flex items-center justify-center">Today</div>
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </div>
+  <div class="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-3">
+    <div class="flex flex-col mt-2">
+      <h4>Active users</h4>
+      <h4><span class="font-bold text-2xl">27/</span> 40</h4>
+    </div>
+    <div class="flex flex-col mt-2">
+      <h4>Active users</h4>
+      <div class="font-bold text-2xl">3,450</div>
+    </div>
+    <div class="flex flex-col mt-2">
+      <h4>Active users</h4>
+      <div class="font-bold text-2xl">2m 34s</div>
+    </div>
+    <div class="flex flex-col mt-2">
+      <h4>Active users</h4>
+      <div class="font-bold text-2xl">64%</div>
+      <mat-icon> show_chart</mat-icon>
+    </div>
+    <div class="flex flex-col mt-2">
+      <h4>Active users</h4>
+      <div class="font-bold text-2xl">86%</div>
+      <mat-icon> show_chart</mat-icon>
+    </div>
+    <div class="flex flex-col mt-2">
+      <h4>Active users</h4>
+      <div class="font-bold text-2xl">+34%</div>
+      <mat-icon> show_chart</mat-icon>
+    </div>
+  </div>
+  <div class="w-full mt-4 shadow-xl border border-b-gray-500 p-10">
+    <ngx-charts-line-chart
+      [view]="[1000, 300]"
+      [results]="chartData"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [gradient]="gradient"
+      [animations]="true"
+      [legend]="true"
+      [legendTitle]="title"
+    >
+    </ngx-charts-line-chart>
+  </div>
+  <div class="w-full mt-4 shadow-xl border border-b-gray-500 p-10">
+    <ngx-charts-line-chart
+      [view]="[1000, 300]"
+      [results]="chartData2"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [gradient]="gradient"
+      [animations]="true"
+      [legend]="true"
+      [legendTitle]="title"
+    >
+    </ngx-charts-line-chart>
+  </div>
+</div>

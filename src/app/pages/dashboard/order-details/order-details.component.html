@@ -1,0 +1,391 @@
+<div>
+  <div *ngIf="showLoading">
+    <ngx-spinner class="bg-ye" type="ball-scale-multiple"></ngx-spinner>
+  </div>
+  <div *ngIf="orderDetails$ | async as data">
+    <app-dashboard-main-header name="Order Details"></app-dashboard-main-header>
+    <div
+      class="flex justify-end items-end p-5 gap-4"
+      *ngIf="orderstatus === 'Investigating customer complaint'"
+    >
+      <div>
+        <div class="bg-[#E1252540] p-3 relative">
+          <div
+            class="text-[#E12525] font-bold cursor-pointer"
+            mat-button
+            (click)="declineComplain()"
+          >
+            Decline complaint
+          </div>
+        </div>
+        <div *ngIf="decline" class="absolute left-[50%] w-[400px] h-[500px]">
+          <mat-card>
+            <mat-card-content>
+              <div class="flex flex-col justify-center items-center">
+                <img src="./assets/faeture.png" class="w-10 h-10" alt="" />
+                <div class="font-bold mt-3">Delete Complaint request</div>
+                <div class="w-[70%] mt-4">
+                  Are you sure you want to delete this request? This action
+                  cannot be undone.
+                </div>
+                <div class="flex gap-5 mt-5">
+                  <button mat-raised-button (click)="canceldeclineComplain()">
+                    Cancel
+                  </button>
+                  <button
+                    mat-raised-button
+                    [ngStyle]="{
+                    'background-color': '#D92D20', 
+                  }"
+                    (click)="finalDecline(data.orderId)"
+                  >
+                    <div class="text-white">Decline</div>
+                  </button>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div class="bg-[#DEDEFA] p-3">
+        <div class="text-[#5C59E8] font-bold cursor-pointer" (click)="create()">
+          Resolve complaint
+        </div>
+      </div>
+      <div>
+        <div class="bg-[#001D6D] p-3 relative">
+          <div
+            class="text-white font-bold cursor-pointer"
+            mat-button
+            (click)="approveComplain()"
+          >
+            Approve complaint
+          </div>
+        </div>
+        <div *ngIf="approve" class="absolute left-[50%] w-[400px] h-[500px]">
+          <mat-card>
+            <mat-card-content>
+              <div class="flex flex-col justify-center items-center">
+                <img src="./assets/faeture.png" class="w-10 h-10" alt="" />
+                <div class="font-bold mt-3">Approve Complaint request</div>
+                <div class="w-[70%] mt-4">
+                  Are you sure you want to approve this request? This action
+                  cannot be undone.
+                </div>
+                <div class="flex gap-5 mt-5">
+                  <button mat-raised-button (click)="cancelapproveComplain()">
+                    Cancel
+                  </button>
+                  <button
+                    mat-raised-button
+                    [ngStyle]="{
+                    'background-color': '#28C76F', 
+                  }"
+                    (click)="finalApprove(data.orderId)"
+                  >
+                    Approve
+                  </button>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex md:flex-row xs:flex-col m-10 gap-3">
+      <div class="w-[70%] mx-auto">
+        <div class="mt-10">
+          <div class="flex md:flex-row xs:flex-col justify-between gap-3">
+            <div
+              class="shadow-lg bg-gradient-to-r from-[#FCFCFC] to-[#FCFCFC] p-4 w-full"
+            >
+              <div class="flex">
+                <div>
+                  Order
+                  <span class="font-bold text-md"> {{ data?.orderId }}</span>
+                </div>
+                <div
+                  [ngClass]="{
+                  'ml-5 text-green-500 font-bold bg-green-100 ':
+                    orderstatus!== 'Investigating customer complaint',
+                  'ml-3 text-red-500 font-bold bg-red-100':  orderstatus=== 'Investigating customer complaint',
+                }"
+                >
+                  {{ orderstatus }}
+                </div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>add</mat-icon>
+                  <div class="font-bold">Created</div>
+                </div>
+                <div>
+                  {{ data?.createdDate | date : "yyyy-MM-dd HH:mm:ss" }}
+                </div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>add</mat-icon>
+                  <div class="font-bold">Last modified</div>
+                </div>
+                <div>
+                  {{ data?.lastModifiedDate | date : "yyyy-MM-dd HH:mm:ss" }}
+                </div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>shopping_cart</mat-icon>
+                  <div class="font-bold">shopping method</div>
+                </div>
+                <div>Online</div>
+              </div>
+            </div>
+            <div
+              class="shadow-lg bg-gradient-to-r from-[#FCFCFC] to-[#FCFCFC] p-4 w-full"
+            >
+              <div>
+                <div>BUYER</div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>person</mat-icon>
+                  <div class="font-bold">Customer</div>
+                </div>
+                <div>{{ data?.customerName }}</div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>mail</mat-icon>
+                  <div class="font-bold">Email</div>
+                </div>
+                <div>Johndoe@gmail.com</div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>phone</mat-icon>
+                  <div class="font-bold">phone</div>
+                </div>
+                <div>{{ data?.customerPhone }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-10">
+          <div class="flex justify-between md:flex-row xs:flex-col gap-3">
+            <div
+              class="shadow-lg bg-gradient-to-r from-[#FCFCFC] to-[#FCFCFC] p-4 w-full"
+            >
+              <div class="flex">
+                <div>AMOUNT</div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>add</mat-icon>
+                  <div class="font-bold uppercase">Total amount</div>
+                </div>
+                <div>
+                  {{ data?.amount | currency : "₦" : "symbol" : "1.0-0" }}
+                </div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>room_service</mat-icon>
+                  <div class="font-bold">SERVICE FEE</div>
+                </div>
+                <div>
+                  {{ data?.serviceFee | currency : "₦" : "symbol" : "1.0-0" }}
+                </div>
+              </div>
+              <div class="flex justify-between mt-9">
+                <div class="flex gap-3 justify-center items-center">
+                  <mat-icon>local_grocery_store</mat-icon>
+                  <div class="font-bold">GRAND TOTAL</div>
+                </div>
+                <div>
+                  {{ data?.totalAmount | currency : "₦" : "symbol" : "1.0-0" }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="shadow-lg bg-gradient-to-r from-[#FCFCFC] to-[#FCFCFC] p-4 w-full"
+            >
+              <div>
+                <div>DESCRIPTION</div>
+              </div>
+              <div class="mt-9 border p-3">
+                {{ data?.narration }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="mt-10 bg-white shadow-lg"
+          *ngIf="orderstatus === 'Investigating customer complaint'"
+        >
+          <div class="p-5 flex gap-5 border-b border-b-gray-200">
+            <div class="mt-1">Order list</div>
+            <div class="text-[#0D894F] font-bold bg-[#E7F4EE] p-1 rounded-full">
+              2 products
+            </div>
+          </div>
+          <div
+            class="bg-gradient-to-r from-[#F7F7FC] to-[#F7F7FC] p-5 font-bold"
+          >
+            IMAGES COMPLAINTS
+          </div>
+          <div class="p-4 flex flex-wrap gap-5">
+            <img src="./assets/group1.png" alt="" class="w-20" />
+            <img src="./assets/group1.png" alt="" class="w-20" />
+            <img src="./assets/group1.png" alt="" class="w-20" />
+            <img src="./assets/group1.png" alt="" class="w-20" />
+            <img src="./assets/group1.png" alt="" class="w-20" />
+          </div>
+          <div
+            class="bg-gradient-to-r from-[#F7F7FC] to-[#F7F7FC] p-5 font-bold"
+          >
+            MESSAGE COMPLAINTS
+          </div>
+          <div class="p-4">
+            <mat-form-field class="w-full h-[200px]">
+              <textarea matInput placeholder="Enter message here..."></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div
+          class="mt-10 bg-white shadow-lg p-10 text-2xl"
+          *ngIf="orderstatus !== 'Investigating customer complaint'"
+        >
+          NO COMPLAINTS
+        </div>
+      </div>
+      <div class="w-[30% ]">
+        <div
+          class="shadow-lg bg-gradient-to-r from-[#FCFCFC] to-[#FCFCFC] p-4 w-[400px] h-[270px]"
+        >
+          <div>
+            <div>SELLER</div>
+          </div>
+          <div class="flex justify-between mt-9">
+            <div class="flex gap-3 justify-center items-center">
+              <mat-icon>person</mat-icon>
+              <div class="font-bold">Customer</div>
+            </div>
+            <div>{{ data?.merchantName }}</div>
+          </div>
+          <div class="flex justify-between mt-9">
+            <div class="flex gap-3 justify-center items-center">
+              <mat-icon>mail</mat-icon>
+              <div class="font-bold">Email</div>
+            </div>
+            <div>Johndoe@gmail.com</div>
+          </div>
+          <div class="flex justify-between mt-9">
+            <div class="flex gap-3 justify-center items-center">
+              <mat-icon>phone</mat-icon>
+              <div class="font-bold">new</div>
+            </div>
+            <div>blank</div>
+          </div>
+        </div>
+        <div
+          class="shadow-lg bg-gradient-to-r from-[#FCFCFC] to-[#FCFCFC] p-4 w-[400px] mt-10"
+        >
+          <div>
+            <div>Address</div>
+            <div class="mt-10">Delivery location</div>
+            <div class="flex mt-7 gap-5">
+              <mat-icon>place</mat-icon>
+              <div>{{ data?.customerAddress }}</div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="shadow-lg bg-gradient-to-r from-[#FCFCFC] to-[#FCFCFC] p-4 w-[400px] mt-10"
+        >
+          <div>
+            <!-- {{ stat | json }} -->
+            <div>Order status</div>
+            <div class="flex flex-col" *ngFor="let orderStatus of stat">
+              <div class="flex items-center gap-4">
+                <mat-icon
+                  *ngIf="orderStatus?.stage === 'Product is on its way'"
+                  class="text-blue-500"
+                  >commute</mat-icon
+                >
+                <mat-icon *ngIf="orderStatus?.stage === 'Product was delivered'"
+                  >done</mat-icon
+                >
+                <mat-icon
+                  *ngIf="
+                    orderStatus?.stage === 'Investigating customer complaint'
+                  "
+                  >zoom_in</mat-icon
+                >
+                <mat-icon *ngIf="orderStatus?.stage === 'Product was retrieved'"
+                  >swap_vert</mat-icon
+                >
+                <mat-icon *ngIf="orderStatus?.stage === 'Retrieving product'"
+                  >swap_vert</mat-icon
+                >
+                <mat-icon
+                  *ngIf="orderStatus?.stage === 'Transaction completed'"
+                  class="text-green-500"
+                  >beenhere</mat-icon
+                >
+                <div class="mt-4">
+                  <div class="font-bold">{{ orderStatus?.stage }}</div>
+                  <div>
+                    {{
+                      orderStatus?.createdDate | date : "yyyy-MM-dd HH:mm:ss"
+                    }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="flex mt-10 gap-5">
+            <mat-icon>shopping_cart</mat-icon>
+            <div class="flex-col">
+              <div class="font-bold">Order placed</div>
+              <div>An order has been placed.</div>
+              <div>12/12/2022, 03:00</div>
+            </div>
+          </div>
+          <div class="flex mt-10 gap-5">
+            <mat-icon>refresh</mat-icon>
+            <div class="flex-col">
+              <div class="font-bold">Proccessing</div>
+              <div>Seller has proccessed your order.</div>
+              <div>12/12/2022, 03:00</div>
+            </div>
+          </div>
+          <div class="flex mt-10 gap-5">
+            <mat-icon>work_outline</mat-icon>
+            <div class="flex-col">
+              <div class="font-bold">Packed</div>
+              <div>Shipping</div>
+              <div>delivered</div>
+            </div>
+          </div>
+          <div class="flex mt-10 gap-5">
+            <mat-icon>commute</mat-icon>
+            <div class="flex-col">
+              <div class="font-bold">Shipping</div>
+              <div>Shipping</div>
+              <div>12/12/2022, 03:15</div>
+            </div>
+          </div>
+          <div class="flex mt-10 gap-5">
+            <mat-icon>done</mat-icon>
+            <div class="flex-col">
+              <div class="font-bold">Delivered</div>
+              <div>12/12/2022, 03:15</div>
+            </div>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

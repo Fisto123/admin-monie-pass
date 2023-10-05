@@ -1,0 +1,156 @@
+<div>
+  <app-dashboard-main-header name="Add Users"></app-dashboard-main-header>
+
+  <div class="border rounded-lg m-5">
+    <div class="flex m-5 justify-between">
+      <div>
+        <mat-form-field class="mt-10 md:w-[678px] xs:w0full">
+          <span matPrefix class="m-2">
+            <mat-icon>search</mat-icon>
+          </span>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Search users..."
+          />
+        </mat-form-field>
+      </div>
+      <div class="flex gap-3">
+        <div *ngIf="showLoading">
+          <ngx-spinner class="bg-ye" type="ball-scale-multiple"></ngx-spinner>
+        </div>
+        <div class="m-2 mt-10">
+          <button
+            [ngStyle]="{ 'background-color': '#001D6D', height: '49.6px' }"
+            color="primary"
+            type="submit"
+            mat-raised-button
+            (click)="openDialog(addUsercompoment, width)"
+          >
+            Add users
+          </button>
+        </div>
+        <div class="m-2 mt-10">
+          <button
+            [ngStyle]="{ 'background-color': 'none', height: '49.6px' }"
+            color="primary"
+            type="submit"
+            class="border px-1 flex items-center"
+          >
+            <span matPrefix class="m-2">
+              <mat-icon>filter_list</mat-icon>
+            </span>
+            Filter
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="flex m-3 gap-5">
+      <div class="font-bold text-lg">Team members</div>
+      <div class="text-[#6941C6] mt-1">{{ userCount }} users</div>
+    </div>
+    <div>
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Selection Column -->
+        <ng-container matColumnDef="select">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [ngStyle]="{ 'background-color': '#EAECF0' }"
+          >
+            <mat-checkbox
+              (change)="$event ? masterToggle() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(element) : null"
+              [checked]="selection.isSelected(element)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Other Columns -->
+        <ng-container matColumnDef="name">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [ngStyle]="{ 'background-color': '#EAECF0' }"
+            class="bg-black"
+          >
+            Name
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="items-center">
+              <div class="mt-2 ml-2 font-bold">
+                {{ element.firstName + " " + element.lastName }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [ngStyle]="{ 'background-color': '#EAECF0' }"
+          >
+            role
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngStyle]="{ color: '#027A48', 'font-weight': 'bolder' }"
+          >
+            {{ element.role }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [ngStyle]="{ 'background-color': '#EAECF0' }"
+          >
+            email_address
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
+
+        <!-- Edit and Delete Columns -->
+        <ng-container matColumnDef="actions">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [ngStyle]="{ 'background-color': '#EAECF0' }"
+          ></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="deleteElement(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button (click)="editElement(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <mat-paginator
+      [pageSize]="paginator?.pageSize"
+      [pageIndex]="paginator.pageIndex"
+      [length]="totalItems"
+      (page)="onPageChange($event)"
+      #paginator
+    >
+    </mat-paginator>
+  </div>
+</div>

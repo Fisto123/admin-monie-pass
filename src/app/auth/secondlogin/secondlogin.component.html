@@ -1,0 +1,170 @@
+<div class="flex w-[100%] h-screen">
+  <app-shared-commmon class="lg:w-[60%] h-full"></app-shared-commmon>
+  <div
+    class="xs:w-[100%] sm:w-[80%] md:w-[100%] lg:w-[40%] flex justify-center items-center"
+  >
+    <div class="w-full mx-auto">
+      <h1 class="text-md text-center text-[#001D6D] font-bold">
+        Second step verification
+      </h1>
+      <h3 class="text-center text-[16px]">
+        Enter the OTP code we sent to your mail
+      </h3>
+
+      <form
+        class="flex justify-center mt-20"
+        [formGroup]="confirmEmailForm"
+        (ngSubmit)="onSubmit(confirmEmailForm.value)"
+      >
+        <div class="w-[80%] flex-col">
+          <mat-form-field class="w-full">
+            <input
+              matInput
+              placeholder="Type your email here..."
+              value=""
+              type="email"
+              formControlName="email"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              fc['email'].touched &&
+              fc['email'].errors &&
+              fc['email'].errors['required']
+            "
+          >
+            <div class="text-red-400 font-bold">email is required***</div>
+          </div>
+          <div *ngIf="fc['email'].errors && fc['email'].errors['email']">
+            <div class="text-red-400 font-bold">Invalid email format</div>
+          </div>
+          <mat-form-field class="w-full">
+            <input
+              matInput
+              placeholder="Type code here..."
+              value=""
+              formControlName="code"
+              type="text"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              fc['code'].touched &&
+              fc['code'].errors &&
+              fc['code'].errors['required']
+            "
+          >
+            <div class="text-red-400 font-bold">Code is required***</div>
+          </div>
+
+          <mat-form-field class="w-full">
+            <div class="flex">
+              <input
+                matInput
+                placeholder="create password..."
+                value=""
+                [type]="showpassword ? 'password' : 'text'"
+                formControlName="password"
+              />
+              <mat-icon
+                *ngIf="!showpassword"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="visibility"
+                (click)="tooglePassword()"
+              ></mat-icon>
+              <mat-icon
+                *ngIf="showpassword"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="visibility_off"
+                (click)="tooglePassword()"
+              ></mat-icon>
+            </div>
+          </mat-form-field>
+          <div
+            *ngIf="
+              fc['password'].touched &&
+              fc['password'].errors &&
+              fc['password'].errors['required']
+            "
+          >
+            <div class="text-red-400 font-bold">Password is required***</div>
+          </div>
+          <mat-form-field class="w-full">
+            <div class="flex">
+              <input
+                matInput
+                placeholder="confirm password..."
+                value=""
+                [type]="showConfIrmPassword ? 'password' : 'text'"
+                formControlName="cpassword"
+              />
+              <mat-icon
+                *ngIf="!showConfIrmPassword"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="visibility"
+                (click)="toogleConfirmPassword()"
+              ></mat-icon>
+
+              <mat-icon
+                *ngIf="showConfIrmPassword"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="visibility_off"
+                (click)="toogleConfirmPassword()"
+              ></mat-icon>
+            </div>
+          </mat-form-field>
+          <div *ngIf="confirmEmailForm.hasError('passwordMismatch')">
+            <div class="text-red-400 font-bold">Passwords do not match</div>
+          </div>
+          <div
+            *ngIf="
+              fc['cpassword'].touched &&
+              fc['cpassword'].errors &&
+              fc['cpassword'].errors['required']
+            "
+          >
+            <div class="text-red-400 font-bold">
+              confirm password is required***
+            </div>
+          </div>
+          <div class="flex justify-between mt-5">
+            <mat-slide-toggle>Remember me</mat-slide-toggle>
+            <h4 class="cursor-pointer" routerLink="/change-password">
+              Forgot password
+            </h4>
+          </div>
+          <div>
+            <button
+              [ngStyle]="{
+                'background-color': confirmEmailForm.valid
+                  ? '#001D6D'
+                  : '##00153E',
+                color: confirmEmailForm.valid ? 'white' : 'black',
+                padding: '20px'
+              }"
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="!confirmEmailForm.valid"
+              class="w-full"
+            >
+              Confirm
+            </button>
+          </div>
+          <div class="flex gap-3 mt-5">
+            <h3>Didnt get OTP?</h3>
+            <h3 class="border-b border-b-black text-[#001D6D]">Resend OTP</h3>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="showLoading">
+        <ngx-spinner class="bg-ye" type="ball-scale-multiple"></ngx-spinner>
+      </div>
+    </div>
+  </div>
+  <!-- <app-button buttonText="Sign In"></app-button> -->
+</div>

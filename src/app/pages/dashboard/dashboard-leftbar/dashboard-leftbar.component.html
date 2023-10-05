@@ -1,0 +1,73 @@
+<div class="flex shadow-lg h-[120vh] w-full">
+  <div class="flex flex-col w-full justify-between">
+    <div class="w-[100%]">
+      <div class="w-full mt-10">
+        <div class="flex justify-center">
+          <img
+            class="flex justify-center items-center"
+            src="./assets/logo.png"
+            class="w-[150px] h-[30px]"
+            alt=""
+          />
+        </div>
+        <div class="flex flex-col mt-5">
+          <div class="mx-9 mb-4 text-md text-[#37383C]">Main menu</div>
+          <div
+            *ngFor="let item of navlinks"
+            class="w-full"
+            [routerLink]="item?.link"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <ul class="p-2 flex gap-0 items-center hover:bg-slate-400 w-full">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="{{ item.icon }}"
+                class="mx-6"
+              ></mat-icon>
+              <li class="cursor-pointer">
+                <a>
+                  {{ item?.name }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="flex flex-col mx-8 mt-3"
+          *ngIf="canShowUserLink"
+          [routerLink]="['/dashboard/users']"
+        >
+          <h3>ADMIN</h3>
+          <div class="flex gap-4 hover:bg-slate-400 w-full">
+            <mat-icon
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="person"
+            ></mat-icon>
+            <h3 class="cursor-pointer">Manage users</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col mx-8">
+      <h3>Exit</h3>
+      <div class="flex gap-4">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          fontIcon="settings"
+          class="text-[#E12525]"
+        ></mat-icon>
+        <h3
+          class="text-[#E12525] font-extrabold text-sm cursor-pointer"
+          (click)="logOut()"
+        >
+          Logout
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>

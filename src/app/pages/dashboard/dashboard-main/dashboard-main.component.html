@@ -1,0 +1,63 @@
+<div class="w-full">
+  <div class="flex lg:flex-row xs:flex-col">
+    <div class="lg:w-[80%] xs:w-full">
+      <div class="w-full">
+        <app-dashboard-main-header></app-dashboard-main-header>
+      </div>
+      <div class="w-full max-h-[calc(120vh-64px)] overflow-y-auto">
+        <div class="m-4">
+          <div class="flex">
+            <h3>Today</h3>
+            <mat-icon
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="keyboard_arrow_down"
+              class="mt-0.5"
+            ></mat-icon>
+          </div>
+          <div class="grid lg:grid-cols-3 sm:grid-cols-2 gap-5">
+            <app-dashboard-main-card
+              name="Complaints"
+              sty="bg-gradient-to-r from-[#B6D4FF] to-[#BAFFEE]"
+              [price1]="ordercount"
+              class="xs:mx-auto"
+            ></app-dashboard-main-card>
+            <app-dashboard-main-card
+              name="Orders"
+              sty="bg-gradient-to-r from-[#F0CFFF] to-[#CFD4FF]"
+              [price1]="ordercount"
+              class="xs:mx-auto"
+            ></app-dashboard-main-card>
+            <app-dashboard-main-card
+              name="Invoices"
+              sty=" bg-gradient-to-r from-[#FFDFE3] to-[#FFCEB2] "
+              [price1]="invoicecount"
+              class="xs:mx-auto"
+            ></app-dashboard-main-card>
+          </div>
+          <div class="w-full mt-4 shadow-lg flex items-center justify-center">
+            <ngx-charts-line-chart
+              [view]="[viewWidth, viewHeight]"
+              [results]="chartData"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [gradient]="gradient"
+              [animations]="true"
+              [legend]="true"
+              [legendTitle]="title"
+            >
+            </ngx-charts-line-chart>
+          </div>
+          <div class="mt-5">
+            <app-dashboard-order></app-dashboard-order>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lg:w-[20%] xs:w-full">
+      <div class="mt-5">
+        <app-dashboard-rightbar class="w-full"></app-dashboard-rightbar>
+      </div>
+    </div>
+  </div>
+</div>

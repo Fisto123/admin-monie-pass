@@ -1,0 +1,124 @@
+<div class="flex justify-center items-center">
+  <div class="flex flex-col">
+    <h2 mat-dialog-title>
+      <div class="">
+        <div class="text-md font-bold">Add user</div>
+      </div>
+    </h2>
+    <mat-dialog-content>
+      <form
+        [formGroup]="registerForm"
+        (ngSubmit)="onSubmit(registerForm.value)"
+      >
+        <div class="flex flex-col">
+          <label for="first name" class="font-bold">First name</label>
+          <mat-form-field class="w-[403px]">
+            <input
+              matInput
+              class="w-full"
+              type="text"
+              formControlName="firstName"
+            />
+          </mat-form-field>
+        </div>
+        <div
+          *ngIf="
+            fc['firstName'].touched &&
+            fc['firstName'].errors &&
+            fc['firstName'].errors['required']
+          "
+        >
+          <div class="text-red-400 font-bold text-sm">
+            Firstname is required***
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <label for="last name" class="font-bold">Last name</label>
+          <mat-form-field class="w-[403px]">
+            <input
+              matInput
+              class="w-full"
+              type="text"
+              formControlName="lastName"
+            />
+          </mat-form-field>
+        </div>
+        <div
+          *ngIf="
+            fc['lastName'].touched &&
+            fc['lastName'].errors &&
+            fc['lastName'].errors['required']
+          "
+        >
+          <div class="text-red-400 font-bold text-sm">
+            Lastname is required***
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <label for="first name" class="font-bold">Email</label>
+          <mat-form-field class="w-[403px]">
+            <input
+              matInput
+              class="w-full"
+              type="email"
+              formControlName="email"
+            />
+          </mat-form-field>
+        </div>
+        <div
+          *ngIf="
+            fc['email'].touched &&
+            fc['email'].errors &&
+            fc['email'].errors['required']
+          "
+        >
+          <div class="text-red-400 font-bold text-sm">email is required***</div>
+        </div>
+        <div *ngIf="fc['email'].errors && fc['email'].errors['email']">
+          <div class="text-red-400 font-bold text-sm">Invalid email format</div>
+        </div>
+        <div class="flex flex-col">
+          <label for="username" class="font-bold">Username</label>
+          <mat-form-field class="w-[403px]">
+            <input
+              matInput
+              class="w-full"
+              type="text"
+              formControlName="username"
+            />
+          </mat-form-field>
+        </div>
+        <div
+          *ngIf="
+            fc['username'].touched &&
+            fc['username'].errors &&
+            fc['username'].errors['required']
+          "
+        >
+          <div class="text-red-400 font-bold text-sm">
+            Username is required***
+          </div>
+        </div>
+        <div *ngIf="showLoading">
+          <ngx-spinner class="bg-ye" type="ball-scale-multiple"></ngx-spinner>
+        </div>
+        <div>
+          <button
+            [ngStyle]="{
+              'background-color': registerForm.valid ? '#001D6D' : '##00153E',
+              color: registerForm.valid ? 'white' : 'black',
+              height: '49.6px'
+            }"
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="w-full"
+            [disabled]="!registerForm.valid"
+          >
+            Add user
+          </button>
+        </div>
+      </form>
+    </mat-dialog-content>
+  </div>
+</div>

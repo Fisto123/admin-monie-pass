@@ -1,0 +1,58 @@
+<div>
+  <div class="m-3 bg-[#F7F7FC] p-3 relative">
+    <div class="flex justify-between">
+      <div class="font-bold text-xl">Invoice</div>
+      <div class="flex flex-col">
+        <div class="text-sm">Invoice No.</div>
+        <h2 class="text-lg">Invoice {{ invoice.invoiceId }}</h2>
+      </div>
+    </div>
+    <div class="flex flex-col m-1 ml-3">
+      <div class="text-xs">Issued By:</div>
+      <div class="text-sm font-bold mt-1">{{ invoice.merchantName }}</div>
+      <div class="text-xs mt-1">jonsnow2gmail.com</div>
+    </div>
+    <div class="ml-3 flex justify-between m-3">
+      <div class="flex flex-col">
+        <div>Billed To:</div>
+        <div class="font-bold text-sm">{{ invoice.customerName }}</div>
+        <div class="font-bold text-sm">email</div>
+      </div>
+      <div class="flex flex-col mt-[-15px]">
+        <div>issued on</div>
+        <div class="font-bold">
+          {{ invoice.createdDate | date : "yyyy-MM-dd HH:mm:ss" }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-3">
+    <div class="flex justify-between border-b p-1 border-b-gray-300">
+      <div class="font-bold">Description</div>
+      <div>Amount</div>
+    </div>
+    <div class="flex justify-between m-1 mt-6 mb-20">
+      <div class="text-sm">
+        {{ invoice.narration }}
+      </div>
+      <div class="ml-20">
+        {{ invoice.totalAmount | currency : "₦" : "symbol" : "1.0-0" }}
+      </div>
+    </div>
+    <div class="absolute bottom-0 right-0 mt-20 m-3">
+      <div class="rounded-full bg-[#F7F7FC] p-5 mt-20 px-10">
+        <div class="flex justify-between gap-5">
+          <div>Total <span class="font-bold">(NGN)</span></div>
+          <div class="font-bold">
+            {{
+              invoice.totalAmount + invoice.serviceFee
+                | currency : "₦" : "symbol" : "1.0-0"
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-dialog-content> </mat-dialog-content>
+</div>

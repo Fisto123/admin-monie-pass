@@ -1,0 +1,108 @@
+<div class="flex w-[100%] h-screen">
+  <app-shared-commmon class="lg:w-[60%] h-full"></app-shared-commmon>
+  <div
+    class="xs:w-[100%] sm:w-[80%] md:w-[100%] lg:w-[40%] flex justify-center items-center"
+  >
+    <div class="w-full mx-auto">
+      <h2 class="text-xl text-center text-[#001D6D] font-bold">Sign In</h2>
+      <h2 class="text-center text-xs">Sign in as an admin</h2>
+      <form
+        class="flex justify-center mt-20"
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit(loginForm.value)"
+      >
+        <div class="w-[80%] flex-col">
+          <mat-form-field class="w-full">
+            <input
+              required
+              matInput
+              placeholder="Email..."
+              value=""
+              formControlName="email"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              fc['email'].touched &&
+              fc['email'].errors &&
+              fc['email'].errors['required']
+            "
+          >
+            <div class="text-red-400 font-bold">email is required***</div>
+          </div>
+          <div *ngIf="fc['email'].errors && fc['email'].errors['email']">
+            <div class="text-red-400 font-bold">Invalid email format</div>
+          </div>
+
+          <mat-form-field class="w-full mt-5">
+            <div class="flex">
+              <input
+                matInput
+                placeholder="password..."
+                value=""
+                [type]="showpassword ? 'password' : 'text'"
+                formControlName="password"
+              />
+
+              <mat-icon
+                *ngIf="!showpassword"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="visibility"
+                (click)="toogle()"
+              ></mat-icon>
+
+              <mat-icon
+                *ngIf="showpassword"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="visibility_off"
+                (click)="toogle()"
+              ></mat-icon>
+            </div>
+          </mat-form-field>
+          <div
+            *ngIf="
+              fc['password'].touched &&
+              fc['password'].errors &&
+              fc['password'].errors['required']
+            "
+          >
+            <div class="text-red-400 font-bold">Password is required***</div>
+          </div>
+          <div class="flex justify-between mt-5">
+            <mat-slide-toggle>Remember me</mat-slide-toggle>
+            <h4 class="cursor-pointer" routerLink="/change-password">
+              Forgot password
+            </h4>
+          </div>
+          <div>
+            <button
+              [ngStyle]="{
+                'background-color': loginForm.valid ? '#001D6D' : '##00153E',
+                color: loginForm.valid ? 'white' : 'black',
+                height: '49.6px'
+              }"
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="w-full"
+              [disabled]="!loginForm.valid"
+            >
+              <div class="flex gap-5">
+                <div *ngIf="showLoading">
+                  <ngx-spinner
+                    class="bg-ye"
+                    type="ball-scale-multiple"
+                  ></ngx-spinner>
+                </div>
+                <div>Login</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- <app-button buttonText="Sign In"></app-button> -->
+</div>

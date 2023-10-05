@@ -1,0 +1,9 @@
+<!-- <p>{{ selectedOptions.join(", ") }}</p> -->
+
+<div *ngFor="let option of options" class="m-2">
+  <mat-checkbox
+    [checked]="isSelected(option)"
+    (change)="toggleOption(option)"
+    >{{ option }}</mat-checkbox
+  >
+</div>

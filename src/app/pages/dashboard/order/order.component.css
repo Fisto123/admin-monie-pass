@@ -1,0 +1,10 @@
+.mat-mdc-paginator-range-actions {
+  background-color: black;
+}
+.smaller-icon {
+  font-size: 16px;
+}
+.custom-font {
+  font-family: "Ubuntu", sans-serif;
+  font-size: 15px;
+}
